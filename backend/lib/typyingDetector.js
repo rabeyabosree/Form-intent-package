@@ -35,8 +35,8 @@ class TypingDetector {
         return Math.round(1000 / avg);
     }
 
-    isFastTyping(){
-        if(this.timestamps.length < this.minStrokes){
+    isFastTyping() {
+        if (this.timestamps.length < this.minStrokes) {
             return false;
         }
 
@@ -44,17 +44,17 @@ class TypingDetector {
         return avaregeSpeed >= this.threshold;
     }
 
-    getMetrics(){
+    getMetrics() {
         const avg = this.getAverageSpeed();
         return {
-            avaregeSpeed : avg,
-            isFastTyping : avg >= this.threshold,
-            totalStrokes : this.timestamps.length,
-            duration : this.timestamps.length >= 2 ? this.timestamps[this.timestamps.length - 1] - this.timestamps[0] : 0
+            avaregeSpeed: avg,
+            isFastTyping: avg >= this.threshold,
+            totalStrokes: this.timestamps.length,
+            duration: this.timestamps.length >= 2 ? this.timestamps[this.timestamps.length - 1] - this.timestamps[0] : 0
         }
     }
 
-    reset(){
+    reset() {
         this.timestamps = []
     }
 }
