@@ -3,6 +3,7 @@ class HesitationDetector {
         this.threshold = threshold;
         this.focusTime = null;
         this.firstFocus = null;
+        this.firstInputTime = null; // ✅ New
     }
 
     onFocus() {
@@ -27,17 +28,24 @@ class HesitationDetector {
         }
     }
 
+    // ✅ New method to register the moment of first actual input
+    registerFirstInput() {
+        if (!this.firstInputTime) {
+            this.firstInputTime = Date.now();
+        }
+    }
+
     getDelay() {
-        if (!this.firstFocus || this.focusTime === null) {
+        if (this.firstInputTime === null || this.focusTime === null) {
             return 0;
         }
 
-        const totalTime = Date.now() - this.firstFocus;
-        return totalTime - this.focusTime;
+        const delay = this.firstInputTime - this.firstFocus;
+        return delay;
     }
 
     isHesitating() {
-        if (!this.firstFocus || this.focusTime === null) {
+        if (this.firstInputTime === null || this.firstFocus === null) {
             return false;
         }
 
@@ -48,6 +56,7 @@ class HesitationDetector {
     reset() {
         this.firstFocus = null;
         this.focusTime = null;
+        this.firstInputTime = null; // ✅ Reset this too
     }
 
     getMetrics() {
@@ -55,10 +64,11 @@ class HesitationDetector {
             isHesitating: this.isHesitating(),
             focusTime: this.focusTime || 0,
             delay: this.getDelay(),
-            totalFocusTime: this.firstFocus ? Date.now() - this.firstFocus : 0
+            totalFocusTime: this.firstFocus ? Date.now() - this.firstFocus : 0,
+            firstInputTime: this.firstInputTime,
         };
     }
 }
 
 
-export default HesitationDetector;
+export default HesitationDetector

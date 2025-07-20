@@ -1,29 +1,27 @@
 class SkippedFieldDetector {
-    constructor({allFeilds = []}={}){
+    constructor({ allFeilds = [] } = {}) {
         this.allFeilds = allFeilds;
-        this.totalFields = new Set()
-
+        this.touchedFeilds = new Set(); // ✅ Declare it
     }
 
-    registerField(fieldName){
+    registerField(fieldName) {
         this.touchedFeilds.add(fieldName);
     }
 
-    getSkippedFields(){
-        return this.allFeilds.filter(field => !this.touchedFeilds.has(field))
+    getSkippedFields() {
+        return this.allFeilds.filter(field => !this.touchedFeilds.has(field));
     }
 
-    reset(){
+    reset() {
         this.touchedFeilds.clear();
     }
 
-    getMetrics(){
+    getMetrics() {
+        const skippedFields = this.getSkippedFields(); // ✅ Declare it here
         return {
-            totalFields: this.allFeilds.lenght,
+            totalFields: this.allFeilds.length, // ✅ Fix typo
             touchedFeilds: this.touchedFeilds.size,
-            skippedFields : skippedFields
-        }
+            skippedFields
+        };
     }
 }
-
-export default SkippedFieldDetector;
